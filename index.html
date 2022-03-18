@@ -1,46 +1,15 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<html>
+    <head>
+    </head>
+        <script type="text/javascript" src="script.js"></script>
+    <body onload="draw();">
+        <h1>Snake</h1>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+        <!--image-->
+        <img id ="apple" style="display: none;" width="20" src="assets/apple.png" alt="Apple">
 
-    <script type="text/javascript" src="script.js"></script>
-    <link rel="stylesheet" href="css/style.css">
+        <canvas id="snakeBoard" width="500" height="500" style="border:1px solid #000000;"></canvas>
+        <canvas id="score1Board" width="100" height="100" style="border:1px solid #000000;"></canvas>
 
-    <title>Snake-Game</title>
-  </head>
-  <body class=".bg-success" onload="draw();">
-
-    <!-- Audio -->
-    <audio id="lvlUp"><source src="assets/level_up.wav" type="audio/wav"></audio>
-    <audio id="eatApple"><source src="assets/win.wav" type="audio/wav"></audio>
-    <audio id="getHealth"><source src="assets/get_health.wav" type="audio/wav"></audio>
-    <audio id="gameOverSound"><source src="assets/game-over.wav" type="audio/wav"></audio>
-    <audio id="getHealth"><source src="assets/get_health.wav" type="audio/wav"></audio>
-    <!-- Close Audio -->
-
-    <!-- Image -->
-    <img id="apple" style="display: none;" width="20" height="20" src="assets/apple.png" alt="Apple">
-    <img id="life" style="display: none;" width="20" height="20" src="assets/love.png" alt="Life">
-    <img id="head" style="display: none;" width="20" height="20" src="assets/head.png" alt="head">
-    <img id="headdown" style="display: none;" width="20" height="20" src="assets/headdown.png" alt="headdown">
-    <img id="headleft" style="display: none;" width="20" height="20" src="assets/headleft.png" alt="headleft">
-    <img id="headright" style="display: none;" width="20" height="20" src="assets/headright.png" alt="headright">
-    <!-- Close Image -->
-
-    <!-- Canvas -->
-    <canvas class="border-dark" id="snakeBoard" width="500" height="500" style="border: 10px solid #ad1b1b; background-image: url('assets/boardbg.jpg');"></canvas>
-    <canvas id="score1Board" width="100" height="100" style="border:5px solid #000000;"></canvas>
-    <!-- Close Canvas -->
-    
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-  </body>
+    </body>
 </html>
