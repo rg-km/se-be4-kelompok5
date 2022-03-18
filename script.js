@@ -39,7 +39,7 @@ function initSnake(color) {
         score: 0,
     }
 }
-let snake1 = initSnake("purple");
+let snake1 = initSnake("green");
 
 let apple1 = {
     color: "red",
@@ -68,6 +68,32 @@ function drawScore(snake) {
     scoreCtx.fillText(snake.score, 10, scoreCanvas.scrollHeight / 2);
 }
 
+function drawSnake(ctx, snake){
+    ctx.fillStyle = snake.color;
+
+    //draw head
+    if(snake.direction === DIRECTION.UP){
+        let img = document.getElementById("head");
+        ctx.drawImage(img, snake.head.x * CELL_SIZE, snake.head.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    } else if(snake.direction === DIRECTION.DOWN){
+        let img = document.getElementById("headDown");
+        ctx.drawImage(img, snake.head.x * CELL_SIZE, snake.head.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    } else if(snake.direction === DIRECTION.LEFT){
+        let img = document.getElementById("headLeft");
+        ctx.drawImage(img, snake.head.x * CELL_SIZE, snake.head.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    } else if(snake.direction === DIRECTION.RIGHT){
+        let img = document.getElementById("headRight");
+        ctx.drawImage(img, snake.head.x * CELL_SIZE, snake.head.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    }
+
+    // draw body
+    for (let i = 1; i < snake.body.length; i++) {
+        let img = document.getElementById("body");
+        ctx.drawImage(img, snake.body[i].x * CELL_SIZE, snake.body[i].y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        // drawCell(ctx, snake.body[i].x, snake.body[i].y, snake.color);
+    }
+}
+
 function draw() {
     setInterval(function() {
         let snakeCanvas = document.getElementById("snakeBoard");
@@ -75,10 +101,8 @@ function draw() {
 
         ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
         
-        drawCell(ctx, snake1.head.x, snake1.head.y, snake1.color);
-        for (let i = 1; i < snake1.body.length; i++) {
-            drawCell(ctx, snake1.body[i].x, snake1.body[i].y, snake1.color);
-        }
+        //draw snake
+        drawSnake(ctx, snake1);
         
         //add image apple
         let imgApple = document.getElementById("apple")
