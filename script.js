@@ -1,4 +1,4 @@
-const CELL_SIZE = 25; // resize object
+const CELL_SIZE = 20; // resize object
 const CANVAS_SIZE = 500;
 const REDRAW_INTERVAL = 50;
 const WIDTH = CANVAS_SIZE / CELL_SIZE;
@@ -37,8 +37,9 @@ function initSnake(color) {
         ...initHeadAndBody(),
         direction: initDirection(),
         score: 0,
+        scoreReset: 0,
         life: 3,
-
+        level: 0,
     }
 }
 
@@ -56,7 +57,12 @@ let apple2 = {
 let life = {
     position: initPosition(),
 }
-
+let wall1 = {
+    position: initPosition(),
+}
+let wall2 = {
+    position: initPosition(),
+}
 
 function drawCell(ctx, x, y, color) {
     ctx.fillStyle = color;
@@ -104,40 +110,6 @@ function drawSnake(ctx, snake){
         // drawCell(ctx, snake.body[i].x, snake.body[i].y, snake.color);
     }
 }
-
-function draw() {
-    setInterval(function() {
-        let snakeCanvas = document.getElementById("snakeBoard");
-        let ctx = snakeCanvas.getContext("2d");
-
-        ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-        
-        //draw snake
-        drawSnake(ctx, snake1);
-        
-        //add image apple
-        let imgApple = document.getElementById("apple")
-        ctx.drawImage(imgApple, apple1.position.x * CELL_SIZE, apple1.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-        ctx.drawImage(imgApple, apple2.position.x * CELL_SIZE, apple2.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-
-        drawScore(snake1);
-    }, REDRAW_INTERVAL);
-}
-
-function teleport(snake) {
-    if (snake.head.x < 0) {
-        snake.head.x = CANVAS_SIZE / CELL_SIZE - 1;
-    }
-    if (snake.head.x >= WIDTH) {
-        snake.head.x = 0;
-    }
-    if (snake.head.y < 0) {
-        snake.head.y = CANVAS_SIZE / CELL_SIZE - 1;
-    }
-    if (snake.head.y >= HEIGHT) {
-        snake.head.y = 0;
-    }
-}
 /* SNAKE - END */
 
 /* HEALTH - START (DISPLAY)*/
@@ -151,11 +123,47 @@ function drawLife(ctx, snake) {
     }
 }
 
-function drawLifeBonus(ctx, snake) {
+function drawLifeBonus(ctx, life) {
     let img = document.getElementById("life");
     ctx.drawImage(img, life.position.x * CELL_SIZE, life.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 /* HEALTH - END */
+
+/* WALL - START (DISPLAY)*/
+function drawWall(wall1, wall2, choice) {
+    let snakeCanvas = document.getElementById("snakeBoard");
+    let ctx = snakeCanvas.getContext("2d");
+    let img = document.getElementById("wall_red");
+    let img2 = document.getElementById("wall_yel");
+
+    if (choice == 1) {
+        for (let i = 0; i<= 6; i++){
+            ctx.drawImage(img, wall1.position.x * CELL_SIZE, i * CELL_SIZE + 30, CELL_SIZE, CELL_SIZE);
+        }
+    }
+    if (choice == 2) {
+        for (let i = 0; i<= 6; i++){
+            ctx.drawImage(img, wall1.position.x * CELL_SIZE, i * CELL_SIZE + 30, CELL_SIZE, CELL_SIZE);
+            ctx.drawImage(img2, i * CELL_SIZE + 10, wall2.position.y * CELL_SIZE + 30, CELL_SIZE, CELL_SIZE);
+        }
+    }
+    if (choice == 3) {
+        for (let i = 0; i<= 6; i++){
+            ctx.drawImage(img, wall1.position.x * CELL_SIZE, i * CELL_SIZE + 30, CELL_SIZE, CELL_SIZE);
+            ctx.drawImage(img, i * CELL_SIZE + 10, wall1.position.y * CELL_SIZE + 30, CELL_SIZE, CELL_SIZE);
+            ctx.drawImage(img2, wall2.position.x * CELL_SIZE, i * CELL_SIZE + 250, CELL_SIZE, CELL_SIZE);
+        }  
+    }
+    if (choice == 4) {
+        for (let i = 0; i<= 6; i++){
+            ctx.drawImage(img, wall1.position.x * CELL_SIZE, i * CELL_SIZE + 30, CELL_SIZE, CELL_SIZE);
+            ctx.drawImage(img, i * CELL_SIZE + 10, wall1.position.y * CELL_SIZE + 30, CELL_SIZE, CELL_SIZE);
+            ctx.drawImage(img2, wall2.position.x * CELL_SIZE, i * CELL_SIZE + 250, CELL_SIZE, CELL_SIZE);
+            ctx.drawImage(img2, i * CELL_SIZE + 200, wall2.position.y * CELL_SIZE + 30, CELL_SIZE, CELL_SIZE);
+        } 
+    }
+}
+/* WALL - END */
 
 //function isPrime use for prime number
 function isPrime(number) {
@@ -163,7 +171,7 @@ function isPrime(number) {
 
     for (let i = 1; i <= number; i++) {
         if (number % i == 0) {
-            divider++
+            divider++;
         }
     }
     return (divider == 2) ? true : false
@@ -189,12 +197,16 @@ function draw() {
         //draw life bonus
         if (isPrime(snake1.score)) {
             drawLifeBonus(ctx, life);
-           
         }
+
+        //draw level
+        document.getElementById("level").innerHTML = "Level Snake: " + snake1.level;
+        document.getElementById("speed").innerHTML = "Speed : " + MOVE_INTERVAL + " ms";
+
         drawScore(snake1);
+        
     }, REDRAW_INTERVAL);
 }
-
 
 
 function eat(snake, apple1, apple2, life) {
@@ -202,12 +214,14 @@ function eat(snake, apple1, apple2, life) {
     if (snake.head.x == apple1.position.x && snake.head.y == apple1.position.y) {
         apple1.position = initPosition();
         snake.score++;
+        snake.scoreReset++;
         snake.body.push({x: snake.head.x, y: snake.head.y}); //increment snake body when eat apple
     } 
     //eat apple2
     if (snake.head.x == apple2.position.x && snake.head.y == apple2.position.y) {
         apple2.position = initPosition();
         snake.score++;
+        snake.scoreReset++;
         snake.body.push({x: snake.head.x, y: snake.head.y});
     }
     //eat health
@@ -215,7 +229,46 @@ function eat(snake, apple1, apple2, life) {
         life.position = initPosition();
         snake.life++;
     }
+    level(snake);
+}
 
+function level(snake) {
+   
+    // snake.level = 1;
+    while (snake.scoreReset == 5) {
+        if (snake.level <= 4) {
+            if (snake.level == 0) {
+                drawWall(wall1, wall2, 1);
+            } else if (snake.level == 1) {
+                drawWall(wall1, wall2, 2);
+            } else if (snake.level == 2) {
+                drawWall(wall1, wall2, 3);
+            } else if (snake.level == 3) {
+                drawWall(wall1, wall2, 4);
+            }
+            snake.level++;
+            document.getElementById("levelUp").innerHTML = "LEVEL UP";
+            setTimeout(function (){
+               document.getElementById("levelUp").innerHTML = "";
+            },   3000)
+       }
+       snake.scoreReset = 0;
+   } 
+}
+
+function teleport(snake) {
+    if (snake.head.x < 0) {
+        snake.head.x = CANVAS_SIZE / CELL_SIZE - 1;
+    }
+    if (snake.head.x >= WIDTH) {
+        snake.head.x = 0;
+    }
+    if (snake.head.y < 0) {
+        snake.head.y = CANVAS_SIZE / CELL_SIZE - 1;
+    }
+    if (snake.head.y >= HEIGHT) {
+        snake.head.y = 0;
+    }
 }
 
 function moveLeft(snake) {

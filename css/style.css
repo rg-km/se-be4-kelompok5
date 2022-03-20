@@ -1,0 +1,59 @@
+* {
+    box-sizing: border-box;
+    margin:0;
+  }
+  
+body {
+    background-color: #b8c0c7;
+}
+/* Style the header */
+.header {
+    background-color: #414a53;
+    padding: 10px;
+    text-align: center;
+    font-size: 35px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: aliceblue;
+  }
+  /* Create three equal columns that floats next to each other */
+  .column {
+    float: left;
+    text-align: center;
+    width: 50%;
+    padding: 10px;
+  }
+  .column p {
+      font-size: 30;
+      font-family: papyrus;
+      font-weight: bold;
+  }
+  .column h2 {
+    font-size: 40;
+    font-family: papyrus;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Style the footer */
+  .footer {
+    background-color: #414a53;
+    padding: 10px;
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: aliceblue;
+  }
+  
+  /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+  @media (max-width: 600px) {
+    .column {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+
