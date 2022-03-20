@@ -10,6 +10,7 @@ const DIRECTION = {
     DOWN: 3,
 }
 const MOVE_INTERVAL = 150;
+var SPEED = MOVE_INTERVAL;
 
 function initPosition() {
     return {
@@ -124,7 +125,7 @@ function drawLife(ctx, snake) {
 }
 
 function drawLifeBonus(ctx, life) {
-    let img = document.getElementById("life");
+    let img = document.getElementById("life_blue");
     ctx.drawImage(img, life.position.x * CELL_SIZE, life.position.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 /* HEALTH - END */
@@ -165,6 +166,18 @@ function drawWall(wall1, wall2, choice) {
 }
 /* WALL - END */
 
+function soundEffect(choice){
+    var audio;
+    switch(choice) {
+        case 1: audio = document.getElementById("getApple"); break;
+        case 2: audio = document.getElementById("getHealth"); break;
+        case 3: audio = document.getElementById("reachLevel"); break;
+        case 4: audio = document.getElementById("gameOver"); break;
+    }
+    
+    audio.play();
+}
+
 //function isPrime use for prime number
 function isPrime(number) {
     let divider = 0;
@@ -201,7 +214,8 @@ function draw() {
 
         //draw level
         document.getElementById("level").innerHTML = "Level Snake: " + snake1.level;
-        document.getElementById("speed").innerHTML = "Speed : " + MOVE_INTERVAL + " ms";
+        var sounds = document.getElementById("")
+        document.getElementById("speed").innerHTML = "Speed : " + SPEED + " ms";
 
         drawScore(snake1);
         
@@ -216,6 +230,7 @@ function eat(snake, apple1, apple2, life) {
         snake.score++;
         snake.scoreReset++;
         snake.body.push({x: snake.head.x, y: snake.head.y}); //increment snake body when eat apple
+        soundEffect(1);
     } 
     //eat apple2
     if (snake.head.x == apple2.position.x && snake.head.y == apple2.position.y) {
@@ -223,11 +238,13 @@ function eat(snake, apple1, apple2, life) {
         snake.score++;
         snake.scoreReset++;
         snake.body.push({x: snake.head.x, y: snake.head.y});
+        soundEffect(1);
     }
     //eat health
     if (snake.head.x == life.position.x && snake.head.y == life.position.y) {
         life.position = initPosition();
         snake.life++;
+        soundEffect(2);
     }
     level(snake);
 }
@@ -247,7 +264,9 @@ function level(snake) {
                 drawWall(wall1, wall2, 4);
             }
             snake.level++;
+            SPEED -= 20;
             document.getElementById("levelUp").innerHTML = "LEVEL UP";
+            soundEffect(3);
             setTimeout(function (){
                document.getElementById("levelUp").innerHTML = "";
             },   3000)
@@ -309,6 +328,14 @@ function checkCollision(snakes) {
             }
         }
     }
+    if (isCollide) {
+        document.getElementById("over").innerHTML = "GAME OVER";
+        soundEffect(4);
+        SPEED = 150;
+        setTimeout(function (){
+            document.getElementById("over").innerHTML = "";
+        }, 3000)
+    }
     return isCollide;
 }
 
@@ -331,14 +358,14 @@ function move(snake) {
     if (!checkCollision([snake1])) {
         setTimeout(function() {
             move(snake);
-        }, MOVE_INTERVAL);
+        }, SPEED);
     } else {
         console.log("collide", snake.color);
         if (snake == snake1) {
             snake1 = initSnake("purple");
             setTimeout(function() {
                 move(snake1);
-            }, MOVE_INTERVAL);
+            }, SPEED);
         }
     }
 }

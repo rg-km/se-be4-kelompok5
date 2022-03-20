@@ -17,9 +17,18 @@
         <img id="headDown" style="display: none;" width="20" height="20" src="assets/headDown.png" alt="HeadDown">
         <img id="body" style="display: none;" width="20" height="20" src="assets/body.png" alt="Body">
         <img id="life" style="display: none;" width="20" height="20" src="assets/love.png" alt="Life">
+        <img id="life_blue" style="display: none;" width="20" height="20" src="assets/love2.png" alt="Life2">
         <img id="wall_red" style="display: none;" width="20" height="20" src="assets/wall_red.png" alt="Wall1">
         <img id="wall_yel" style="display: none;" width="20" height="20" src="assets/wall_yel.png" alt="Wall2">
 
+        <!--Sounds effect-->
+        <audio id="getHealth"><source src="assets/get-health.wav" type="audio/wav"></audio><audio id="lvlUp"><source src="assets/sound effect/level_up.wav" type="audio/wav"></audio>
+        <audio id="getApple"><source src="assets/get-apple.wav" type="audio/wav"></audio><audio id="lvlUp"><source src="assets/sound effect/level_up.wav" type="audio/wav"></audio>
+        <audio id="reachLevel"><source src="assets/reachLevel.mp3" type="audio/mp3"></audio><audio id="lvlUp"><source src="assets/sound effect/level_up.wav" type="audio/wav"></audio>
+        <audio id="gameOver"><source src="assets/game-over.mp3" type="audio/mp3"></audio><audio id="lvlUp"><source src="assets/sound effect/level_up.wav" type="audio/wav"></audio>
+
+
+        <!--Index.html-->
         <div class="header"><h3>Snake Game</h3></div>
         
         <div class="row">
@@ -31,10 +40,12 @@
                 <br><br>
                 <p id="speed" style="font-size: 20;"></p>
                 <br>
-                <p id="levelUp" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; color: rgb(182, 24, 24);"></p>
+                <p id="levelUp" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; color: rgb(6, 176, 255);"></p>
+                <br>
+                <p id="over" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; color: rgb(182, 24, 24);"></p>
             </div>
             <div class="column">
-                <canvas id="snakeBoard" width="500" height="500" style="border:5px solid #fffdfd;  max-width:100%;height:auto; background-image: url('assets/boardbg.jpg');"></canvas>
+                <canvas id="snakeBoard" width="500" height="500" style="border:5px solid #fffdfd;  max-width:100%;height:auto; background-image: url('assets/bg.png'); background-position: center; background-size: cover;"></canvas>
             </div>
         </div>
         <div class="footer"><p>Created by se-be4-kelompok5_Ruang-Guru-Camp © 2022</p></div>
